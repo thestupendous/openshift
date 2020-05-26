@@ -1,0 +1,49 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2020-05-25T04:54:42Z'
+  labels:
+    app: simple-9090
+  name: simple-9090
+  namespace: testproject
+  resourceVersion: '3375728'
+  selfLink: /apis/build.openshift.io/v1/namespaces/testproject/buildconfigs/simple-9090
+  uid: d8eeb470-9e43-11ea-872b-000d3a6a5fc1
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'simple-9090:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/openshift/django-ex.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'python:3.6'
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          172.30.1.1:5000/openshift/python@sha256:670363b3a2b4b740f452d2e2f26062c8cba7c4997a4411672b0e4b1a4d6b2ccc
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: a3bd8b372fc2e0f0
+      type: Generic
+    - github:
+        secret: caf0a080579edf61
+      type: GitHub
+status:
+  lastVersion: 1
+

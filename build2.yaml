@@ -1,0 +1,50 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: '2020-05-26T14:40:14Z'
+  labels:
+    app: from-git
+  name: from-git-copied
+  namespace: proj-alpha
+  resourceVersion: '240792'
+  selfLink: /apis/build.openshift.io/v1/namespaces/proj-alpha/buildconfigs/from-git
+  uid: cf57ca05-9f5e-11ea-a798-080027228222
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'from-git:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: 'https://github.com/thestupendous/dummy-deploy.git'
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'python:3.6'
+        namespace: openshift
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+    - github:
+        secret: PFajpp7YAbYSZpkuRNAo
+      type: GitHub
+    - generic:
+        secret: XhrycvQUzLCnlbxeW7ch
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: >-
+          172.30.1.1:5000/openshift/python@sha256:670363b3a2b4b740f452d2e2f26062c8cba7c4997a4411672b0e4b1a4d6b2ccc
+      type: ImageChange
+status:
+  lastVersion: 1
+

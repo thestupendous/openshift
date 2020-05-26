@@ -1,0 +1,97 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  generation: 3
+  labels:
+    app: from-yaml
+  name: from-yaml
+  namespace: proj-alpha
+  resourceVersion: '255259'
+  selfLink: /apis/apps.openshift.io/v1/namespaces/proj-alpha/deploymentconfigs/from-yaml
+  uid: cf59815b-9f5e-11ea-a798-080027228222
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: from-yaml
+    deploymentconfig: from-yaml
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: from-yaml
+        deploymentconfig: from-yaml
+    spec:
+      containers:
+        - image: >-
+            172.30.1.1:5000/proj-alpha/from-git@sha256:5372fdc195e116bea3ac76b3885bc96619926120d5dc72efba74b34199bc0e5e
+          imagePullPolicy: Always
+          name: from-yaml
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - from-yaml
+        from:
+          kind: ImageStreamTag
+          name: 'from-git:latest'
+          namespace: proj-alpha
+        lastTriggeredImage: >-
+          172.30.1.1:5000/proj-alpha/from-git@sha256:5372fdc195e116bea3ac76b3885bc96619926120d5dc72efba74b34199bc0e5e
+      type: ImageChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2020-05-26T15:19:59Z'
+      lastUpdateTime: '2020-05-26T15:20:02Z'
+      message: replication controller "from-yaml-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+    - lastTransitionTime: '2020-05-26T15:40:52Z'
+      lastUpdateTime: '2020-05-26T15:40:52Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+  details:
+    causes:
+      - imageTrigger:
+          from:
+            kind: DockerImage
+            name: >-
+              172.30.1.1:5000/proj-alpha/from-git@sha256:5372fdc195e116bea3ac76b3885bc96619926120d5dc72efba74b34199bc0e5e
+        type: ImageChange
+    message: image change
+  latestVersion: 2
+  observedGeneration: 3
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
